@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {# could contain other stylesheet link tags relevant to your project #}
+        {{ encore_entry_link_tags('tailwind') }}
+    {% endblock %}
+</head>
+<body>
+
+{{ include('layouts/nav.html.twig') }}
+
+{% block body %}{% endblock %}
+
+{{ include('layouts/footer.html.twig') }}
+
+{% block javascripts %}{% endblock %}
+
+</body>
 </html>
