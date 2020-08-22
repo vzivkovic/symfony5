@@ -1,0 +1,117 @@
+{% use "form_div_layout.html.twig" %}
+
+{#{% block text_widget %}#}
+{#    {%- set type = type|default('text') -%}#}
+{#    {{ block('form_widget_simple') }}#}
+{#{% endblock %}#}
+
+{#{% block button_widget -%}#}
+{#    {%- if attr.forgotten is same as(true) -%}#}
+{#        <div class="flex items-center justify-between">#}
+{#            {%- set attr = attr|merge({class: (attr.class|default('bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'))|trim}) -%}#}
+{#            {{- parent() -}}#}
+{#            <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="">#}
+{#                Forgot Password?#}
+{#            </a>#}
+{#        </div>#}
+{#    {%- else -%}#}
+{#        <div class="lg:w-1/3">#}
+{#        {%- set attr = attr|merge({class: (attr.class|default(#}
+{#                'text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg'#}
+{#            ))|trim}) -%}#}
+{#            {{- parent()-}}#}
+{#        </div>#}
+{#    {%- endif -%}#}
+
+{#{%- endblock button_widget %}#}
+
+{#{%- block form_widget_simple -%}#}
+{#    <input type="{{ type }}"#}
+{#           id="{{ id }}"#}
+{#           name={{ full_name }}#}
+{#           class="{{ block('input_class') }}"#}
+{#           {% if value is not empty %}value="{{ value }}" {% endif %}#}
+{#            {% if required is defined %}required {% endif %}/>#}
+{#{%- endblock form_widget_simple -%}#}
+
+{#{% block form_label -%}#}
+{#    {%- if label is same as(false) -%}#}
+{#        <div class="{{ block('form_label_class') }}"></div>#}
+{#    {%- else -%}#}
+{#        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) -%}#}
+{#        <div class="md:w-1/3">#}
+{#            {{- parent() -}}#}
+{#        </div>#}
+{#    {%- endif -%}#}
+{#{%- endblock form_label %}#}
+
+{#{% block form_row -%}#}
+{#    {%- set widget_attr = {} -%}#}
+{#    <div class="max-w-md">#}
+{#            {{- form_label(form) -}}#}
+{#            <div class="{{ block('form_group_class') }}">#}
+{#                {{- form_widget(form, widget_attr) -}}#}
+{#                {{- form_help(form) -}}#}
+{#            </div>#}
+{#        {{ form_errors(form) }}#}
+{#    </div>#}
+{#{%- endblock form_row %}#}
+
+{#{%- block form_errors -%}#}
+{#    {%- if errors|length > 0 -%}#}
+{#        <div class="md:flex md:items-center mb-4">#}
+{#            <div class="md:w-1/3"></div>#}
+{#            <div class="md:w-2/3">#}
+{#                <ul class="list-reset">#}
+{#                    {%- for error in errors -%}#}
+{#                        <li class="text-red text-xs italic">{{ error.message }}</li>#}
+{#                    {%- endfor -%}#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{#    {%- endif -%}#}
+{#{%- endblock form_errors -%}#}
+
+{#{% block form_label_class -%}#}
+{#    block text-grey-darker font-bold md:text-right mb-1 md:mb-0 pr-4#}
+{#{% endblock form_label_class -%}#}
+
+{#{% block input_class -%}#}
+{#    {% if form.vars.errors|length %}border-red border-1{% endif %}bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4#}
+{#{% endblock input_class -%}#}
+
+{#{% block form_group_class -%}#}
+{#    lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0#}
+{#{% endblock form_group_class -%}#}
+
+{#{% block custom_button_class -%}#}
+{#    bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline#}
+{#{% endblock custom_button_class -%}#}
+
+{%- block widget_container_attributes -%}
+    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {%- set attr = attr|merge({class: (attr.class|default(
+        'container px-5 py-24 mx-auto flex'
+    ))|trim}) -%}
+    {{ block('attributes') }}
+{%- endblock widget_container_attributes -%}
+
+{%- block form_start -%}
+
+    {%- do form.setMethodRendered() -%}
+
+    {% set method = method|upper %}
+
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+
+    {%- set attr = attr|merge({class: (attr.class|default( 'text-gray-700 body-font bg-gray-300' ))|trim}) -%}
+
+<form{% if name != '' %} name="{{ name }}"{% endif %} method="{{ form_method|lower }}"{% if action != '' %} action="{{ action }}"{% endif %}{{ block('attributes') }}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start -%}
